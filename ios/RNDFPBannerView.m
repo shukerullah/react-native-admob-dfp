@@ -55,6 +55,13 @@
 - (void)loadBanner {
     GADRequest *request = [GADRequest request];
     request.testDevices = _testDevices;
+    
+    if (_customTargeting != nil) {
+        if (_customTargeting.count > 0) {
+            request.customTargeting = _customTargeting;
+        }
+    }
+    
     [_bannerView loadRequest:request];
 }
 
@@ -70,6 +77,11 @@
         }
     }];
     _bannerView.validAdSizes = validAdSizes;
+}
+
+- (void)setCustomTargeting:(NSDictionary *)customTargeting
+{
+    _customTargeting = customTargeting;
 }
 
 - (void)setTestDevices:(NSArray *)testDevices
