@@ -1,12 +1,15 @@
 import { arrayOf, func, string, object } from 'prop-types';
 import React, { Component } from 'react';
 import {
+  Dimensions,
   findNodeHandle,
   requireNativeComponent,
   UIManager,
   ViewPropTypes,
 } from 'react-native';
 import { createErrorFromErrorData } from './utils';
+
+const screenWidth = Dimensions.get('window').width;
 
 class PublisherBanner extends Component {
   constructor() {
@@ -32,7 +35,11 @@ class PublisherBanner extends Component {
   }
 
   handleSizeChange(event) {
-    const { height, width } = event.nativeEvent;
+    const { height } = event.nativeEvent;
+    let width = event.nativeEvent.width;
+    if(this.props.adSize === 'fluid') {
+      width = screenWidth;
+    }
     this.setState({ style: { width, height } });
     if (this.props.onSizeChange) {
       this.props.onSizeChange({ width, height });
